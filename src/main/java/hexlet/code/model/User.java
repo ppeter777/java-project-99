@@ -8,10 +8,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.sql.Timestamp;
 
 import jakarta.persistence.GeneratedValue;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,9 +40,9 @@ public class User {
 
     private String password;
 
-    @LastModifiedDate
-    private Timestamp updatedAt;
-
     @CreatedDate
     private Timestamp createdAt;
+
+    @LastModifiedDate
+    private Timestamp updatedAt;
 }
