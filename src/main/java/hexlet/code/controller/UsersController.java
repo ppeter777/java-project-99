@@ -1,6 +1,8 @@
 package hexlet.code.controller;
 
+import hexlet.code.dto.UserCreateDTO;
 import hexlet.code.dto.UserDTO;
+import hexlet.code.dto.UserUpdateDTO;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
@@ -41,6 +43,22 @@ public class UsersController {
         return dto;
     }
 
+    private User toEntity(UserCreateDTO userDto) {
+        var user = new User();
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        return user;
+    }
+
+    private User toEntityForUpdate(UserUpdateDTO userDto, User user) {
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        return user;
+    }
+
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO show(@PathVariable Long id) {
@@ -51,16 +69,20 @@ public class UsersController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    User create(@RequestBody User user) {
+    UserDTO create(@RequestBody UserCreateDTO userData) {
+        var user = toEntity(userData);
         repository.save(user);
-        return user;
+        return toDTO(user);
     }
 
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    User update(@RequestParam User data, @PathVariable Long id) {
-        return repository.findById(id)
+    UserDTO update(@RequestBody UserUpdateDTO data, @PathVariable Long id) {
+        var user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id + " Not Found"));
+        toEntityForUpdate(data, user);
+        repository.save(user);
+        return toDTO(user);
     }
 
     @DeleteMapping("/users/{id}")
