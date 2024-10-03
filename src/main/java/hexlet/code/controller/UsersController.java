@@ -1,18 +1,16 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.AuthRequest;
 import hexlet.code.dto.UserCreateDTO;
 import hexlet.code.dto.UserDTO;
 import hexlet.code.dto.UserUpdateDTO;
 import hexlet.code.exception.ResourceNotFoundException;
+import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
-import hexlet.code.utils.JWTUtils;
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,69 +23,33 @@ public class UsersController {
     public UserRepository repository;
 
     @Autowired
-    private JWTUtils jwtUtils;
-
-    @GetMapping("/temp2")
-    public String index2() {
-        return "labuda2";
-    }
+    public UserMapper userMapper;
 
     @GetMapping("/users")
-    List<UserDTO> index() {
+    ResponseEntity<List<UserDTO>> index() {
         var users = repository.findAll();
-        return users.stream()
-                .map(this::toDTO)
+        var result = users.stream()
+                .map(userMapper::map)
                 .toList();
+        return ResponseEntity.ok()
+                .header("X-Total-Count", String.valueOf(users.size()))
+                .body(result);
     }
-
-    private UserDTO toDTO(User user) {
-        var dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setEmail(user.getEmail());
-        dto.setCreatedAt(user.getCreatedAt());
-        dto.setUpdatedAt(user.getUpdatedAt());
-        return dto;
-    }
-
-    private User toEntity(UserCreateDTO userDto) {
-        var user = new User();
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        return user;
-    }
-
-    private User toEntityForUpdate(UserUpdateDTO userDto, User user) {
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        return user;
-    }
-
+    
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO show(@PathVariable Long id) {
         var user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id + " Not Found"));
-        return toDTO(user);
+        return userMapper.map(user);
     }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    UserDTO create(@RequestBody UserCreateDTO userData) {
-        var user = toEntity(userData);
+    UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
+        var user = userMapper.map(userData);
         repository.save(user);
-        return toDTO(user);
-    }
-
-    @PostMapping("/login")
-    String login(@RequestBody AuthRequest authRequest) {
-        var authentication = new UsernamePasswordAuthenticationToken(
-                authRequest.getUsername(), authRequest.getPassword());
-        return jwtUtils.generateToken(authRequest.getUsername());
+        return userMapper.map(user);
     }
 
     @PutMapping("/users/{id}")
@@ -95,9 +57,9 @@ public class UsersController {
     UserDTO update(@RequestBody UserUpdateDTO data, @PathVariable Long id) {
         var user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id + " Not Found"));
-        toEntityForUpdate(data, user);
+        userMapper.update(data, user);
         repository.save(user);
-        return toDTO(user);
+        return userMapper.map(user);
     }
 
     @DeleteMapping("/users/{id}")

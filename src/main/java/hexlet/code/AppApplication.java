@@ -18,16 +18,16 @@ public class AppApplication {
 	private static final List<User> users = new ArrayList<>();
 
 	public static void main(String[] args) {
-		SpringApplication.run(AppApplication.class, args);
 		User testUser = new User();
 		var currentTime = new Timestamp(System.currentTimeMillis());
-		testUser.setId(1L);
-		testUser.setFirstName("Jack");
-		testUser.setLastName("Jones");
-		testUser.setEmail("hexlet@example.com");
-		testUser.setPassword("qwerty");
-		testUser.setCreatedAt(currentTime);
-		users.add(testUser);
+//		testUser.setId(1L);
+//		testUser.setFirstName("Jack");
+//		testUser.setLastName("Jones");
+//		testUser.setEmail("hexlet@example.com");
+//		testUser.setPasswordDigest("qwerty");
+//		testUser.setCreatedAt(currentTime);
+//		users.add(testUser);
+		SpringApplication.run(AppApplication.class, args);
 	}
 
 	@GetMapping("/welcome")
