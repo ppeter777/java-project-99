@@ -1,6 +1,9 @@
 package hexlet.code.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -30,8 +33,6 @@ public class User implements UserDetails, BaseEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(unique = true)
-
     @ToString.Include
     private String firstName;
 
@@ -42,9 +43,9 @@ public class User implements UserDetails, BaseEntity {
     @ToString.Include
     private String email;
 
+    @NotNull(message = "Please enter your password")
+    @Size(min = 3, message = "The password must be longer than three characters")
     private String passwordDigest;
-
-    private String password;
 
     @CreatedDate
     private Timestamp createdAt;
