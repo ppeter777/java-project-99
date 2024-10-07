@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,15 +18,6 @@ public class AppApplication {
 	private static final List<User> users = new ArrayList<>();
 
 	public static void main(String[] args) {
-		User testUser = new User();
-		var currentTime = new Timestamp(System.currentTimeMillis());
-//		testUser.setId(1L);
-//		testUser.setFirstName("Jack");
-//		testUser.setLastName("Jones");
-//		testUser.setEmail("hexlet@example.com");
-//		testUser.setPasswordDigest("qwerty");
-//		testUser.setCreatedAt(currentTime);
-//		users.add(testUser);
 		SpringApplication.run(AppApplication.class, args);
 	}
 
