@@ -1,45 +1,52 @@
 package hexlet.code.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "task_status")
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "tasks")
 @Getter
 @Setter
-@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class TaskStatus implements BaseEntity{
+@EntityListeners(AuditingEntityListener.class)
+public class Task implements BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(unique = true)
-    @NotBlank
+    @NotNull
     @Size(min = 1)
+    @NotBlank
     private String name;
 
-    @Column(unique = true)
-    @NotBlank
-    @Size(min = 1)
-    @ToString.Include
-    private String slug;
+    private Integer index;
+
+    private String description;
+
+    @NotNull
+    @ManyToOne
+    private TaskStatus taskStatus;
+
+    @ManyToOne
+    private User assignee;
+
+    @LastModifiedDate
+    private LocalDate updatedAt;
 
     @CreatedDate
     private LocalDate createdAt;
-
-//    @OneToMany(mappedBy = "taskStatus", cascade = CascadeType.ALL)
-//    private List<Task> taskList;
 }

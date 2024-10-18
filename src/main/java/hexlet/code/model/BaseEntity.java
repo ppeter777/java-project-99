@@ -1,5 +1,9 @@
 package hexlet.code.model;
 
-public interface BaseEntity {
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+public interface BaseEntity {
 }

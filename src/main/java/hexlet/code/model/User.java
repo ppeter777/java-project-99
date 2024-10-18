@@ -7,16 +7,13 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-
 import jakarta.persistence.GeneratedValue;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -41,8 +38,8 @@ public class User implements UserDetails, BaseEntity {
 
     @Column(unique = true)
     @ToString.Include
-    private String email;
 
+    private String email;
     @NotNull(message = "Please enter your password")
     @Size(min = 3, message = "The password must be longer than three characters")
     private String passwordDigest;
@@ -53,6 +50,9 @@ public class User implements UserDetails, BaseEntity {
     @LastModifiedDate
     private Timestamp updatedAt;
 
+    @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Task> tasks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
