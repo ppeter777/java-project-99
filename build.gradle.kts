@@ -3,6 +3,7 @@ plugins {
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
 	id("io.freefair.lombok") version "8.6"
+	id("io.sentry.jvm.gradle") version "4.13.0"
 }
 
 group = "hexlet.code"
@@ -40,6 +41,17 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	runtimeOnly("com.h2database:h2")
 
+}
+
+sentry {
+	includeSourceContext = true
+	org = "peter-pesotsky"
+	projectName = "java"
+	authToken = System.getenv("SENTRY_AUTH_TOKEN")
+}
+
+tasks.sentryBundleSourcesJava {
+	enabled = System.getenv("SENTRY_AUTH_TOKEN") != null
 }
 
 tasks.withType<Test> {
