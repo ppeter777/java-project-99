@@ -8,6 +8,8 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 import jakarta.persistence.GeneratedValue;
@@ -45,14 +47,14 @@ public class User implements UserDetails, BaseEntity {
     private String passwordDigest;
 
     @CreatedDate
-    private Timestamp createdAt;
+    private LocalDate createdAt;
 
     @LastModifiedDate
-    private Timestamp updatedAt;
+    private LocalDate updatedAt;
 
-    @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Task> tasks;
+//    @OneToMany(mappedBy = "assignee", cascade = CascadeType.MERGE)
+//    @JsonIgnore
+//    private List<Task> tasks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

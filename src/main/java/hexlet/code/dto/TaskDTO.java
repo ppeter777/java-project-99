@@ -2,6 +2,7 @@ package hexlet.code.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import hexlet.code.model.Label;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,9 +25,10 @@ public class TaskDTO {
 
     private Integer index;
 
-    private Date createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate createdAt;
 
-    private String assignee_id;
+    private Long assignee_id;
 
     private String title;
 
@@ -34,9 +36,5 @@ public class TaskDTO {
 
     private String status;
 
-
-
-
-
-
+    private List<Long> labelIds;
 }
