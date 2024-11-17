@@ -5,7 +5,6 @@ import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -23,6 +22,4 @@ public class TaskStatusService {
                 .toList();
         return result;
     }
-
-
 }

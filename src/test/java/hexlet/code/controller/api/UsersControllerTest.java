@@ -7,7 +7,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.UserDTO;
@@ -15,7 +14,6 @@ import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelGenerator;
-import net.datafaker.Faker;
 import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,11 +29,8 @@ import org.springframework.web.context.WebApplicationContext;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -91,9 +86,7 @@ public class UsersControllerTest {
                 .andReturn()
                 .getResponse();
         var body = response.getContentAsString();
-
         List<UserDTO> userDTOS = om.readValue(body, new TypeReference<>() {});
-
         var actual = userDTOS.stream().map(userMapper::map).toList();
         var expected = userRepository.findAll();
         Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -101,19 +94,15 @@ public class UsersControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-
         var data = new HashMap<>();
         data.put("firstName", "Bobik");
         data.put("lastName", "Sobakin");
-
         var request = put("/api/users/" + testUser.getId())
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
-
         mockMvc.perform(request)
                 .andExpect(status().isOk());
-
         var user = userRepository.findById(testUser.getId()).get();
         assertThat(user.getFirstName()).isEqualTo(("Bobik"));
         assertThat(user.getLastName()).isEqualTo(("Sobakin"));
@@ -142,9 +131,7 @@ public class UsersControllerTest {
                 .content(om.writeValueAsString(data));
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
-
         var user = userRepository.findByEmail(data.getEmail()).get();
-
         assertNotNull(user);
         assertThat(user.getFirstName()).isEqualTo(data.getFirstName());
         assertThat(user.getLastName()).isEqualTo(data.getLastName());

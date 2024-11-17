@@ -1,9 +1,7 @@
 package hexlet.code.dto;
 
-import hexlet.code.model.Label;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
 
 @Getter

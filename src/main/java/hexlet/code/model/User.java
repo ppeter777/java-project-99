@@ -2,6 +2,7 @@ package hexlet.code.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -41,7 +42,9 @@ public class User implements UserDetails, BaseEntity {
     @Column(unique = true)
     @ToString.Include
 
+    @Email
     private String email;
+
     @NotNull(message = "Please enter your password")
     @Size(min = 3, message = "The password must be longer than three characters")
     private String passwordDigest;
@@ -51,10 +54,6 @@ public class User implements UserDetails, BaseEntity {
 
     @LastModifiedDate
     private LocalDate updatedAt;
-
-//    @OneToMany(mappedBy = "assignee", cascade = CascadeType.MERGE)
-//    @JsonIgnore
-//    private List<Task> tasks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

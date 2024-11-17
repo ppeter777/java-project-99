@@ -13,38 +13,28 @@ import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelGenerator;
-import io.sentry.Sentry;
-import io.sentry.spring.jakarta.EnableSentry;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@EnableSentry (dsn = "https://de15f0200e74483d0f73317b25474d44@o4508268179619840.ingest.de.sentry.io/4508269120389200")
 public class TaskControllerTest {
 
     @Autowired
@@ -91,10 +81,6 @@ public class TaskControllerTest {
 
     @BeforeEach
     public void setUp() {
-//        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-//                .defaultResponseCharacterEncoding(StandardCharsets.UTF_8)
-//                .apply(springSecurity())
-//                .build();
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
         testTask1 = Instancio.of(modelGenerator.getTaskModel())
                 .create();
@@ -103,7 +89,6 @@ public class TaskControllerTest {
         testUser = Instancio.of(modelGenerator.getUserModel()).create();
         userRepository.save(testUser);
         testTaskStatus = taskStatusRepository.findAll().get(0);
-
         testTask1.setTaskStatus(testTaskStatus);
         label1 = labelRepository.findAll().getFirst();
         testTask1.setLabels(Set.of(label1));

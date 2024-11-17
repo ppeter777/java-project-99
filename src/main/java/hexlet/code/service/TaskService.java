@@ -9,10 +9,7 @@ import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import io.sentry.Sentry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -38,15 +35,9 @@ public class TaskService {
         }
         var task = taskMapper.map(taskData);
         var slug = taskData.getStatus();
-//        var labelName = taskData.getLabelName();
-//        var label = labelRepository.getLabelByName(labelName)
-//                .orElseThrow(() -> new ResourceNotFoundException("Label not found"));
         var taskStatus = taskStatusRepository.getTaskStatusBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Task status not found"));
         task.setTaskStatus(taskStatus);
-//        var labels = task.getLabelList();
-//        labels.add(label);
-//        task.setLabelList(labels);
         taskRepository.save(task);
         return taskMapper.map(task);
     }

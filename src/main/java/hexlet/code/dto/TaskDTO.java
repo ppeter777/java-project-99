@@ -10,9 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.openapitools.jackson.nullable.JsonNullable;
-
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Getter

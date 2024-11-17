@@ -34,5 +34,4 @@ public class AuthenticationController {
         authenticationManager.authenticate(authentication);
         return jwtUtils.generateToken(authRequest.getUsername());
     }
-
 }

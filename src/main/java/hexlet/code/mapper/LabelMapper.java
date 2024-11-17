@@ -1,10 +1,12 @@
 package hexlet.code.mapper;
 
 import hexlet.code.dto.LabelDTO;
-import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.model.Label;
-import hexlet.code.model.Task;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.ReportingPolicy;
 
 @Mapper(uses = {JsonNullableMapper.class, ReferenceMapper.class},
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,

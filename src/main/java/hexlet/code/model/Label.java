@@ -6,10 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.LocalDate;
 import java.util.List;
-
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -30,5 +28,4 @@ public class Label implements BaseEntity {
 
     @ManyToMany
     private List<Task> taskList;
-
 }

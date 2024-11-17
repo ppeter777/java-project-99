@@ -27,3 +27,13 @@ rsa:
 
 server:
   address: 0.0.0.0
+
+sentry:
+  dsn: https://de15f0200e74483d0f73317b25474d44@o4508268179619840.ingest.de.sentry.io/4508269120389200
+  traces-sample-rate: 1.0
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
