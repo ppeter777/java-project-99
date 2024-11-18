@@ -31,4 +31,4 @@
     
     make run
 
-в браузере перейти на http://localhost:7070/
+в браузере перейти на http://localhost:8080/
