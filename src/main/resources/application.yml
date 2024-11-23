@@ -4,20 +4,27 @@ logging:
     root: WARN
 
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE}
+    default: dev
+
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: true
     show-sql: true
     hibernate:
       ddl-auto: update
+
   output:
     ansi:
       enabled: always
+
   datasource:
     url: jdbc:h2:mem:mydb
     username: sa
     password: password
     driverClassName: org.h2.Driver
+
   h2:
     console.enabled: true
 
