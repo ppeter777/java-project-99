@@ -1,13 +1,19 @@
 plugins {
 	java
+	id("application")
+	id("checkstyle")
+	id("jacoco")
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
+	id("org.springdoc.openapi-gradle-plugin") version "1.6.0"
 	id("io.freefair.lombok") version "8.6"
 	id("io.sentry.jvm.gradle") version "4.13.0"
 }
 
 group = "hexlet.code"
 version = "0.0.1-SNAPSHOT"
+
+application { mainClass.set("hexlet.code.AppApplication") }
 
 java {
 	toolchain {
