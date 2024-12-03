@@ -1,7 +1,6 @@
----
 logging:
   level:
-    root: WARN
+    root: warn
 
 spring:
   profiles:
@@ -9,7 +8,6 @@ spring:
     default: development
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: true
     show-sql: true
     hibernate:
@@ -19,21 +17,13 @@ spring:
     ansi:
       enabled: always
 
-  datasource:
-    url: jdbc:h2:mem:mydb
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
-
-  h2:
-    console.enabled: true
+  sql:
+    init:
+      mode: always
 
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
-
-server:
-  address: 0.0.0.0
 
 sentry:
   dsn: https://de15f0200e74483d0f73317b25474d44@o4508268179619840.ingest.de.sentry.io/4508269120389200
