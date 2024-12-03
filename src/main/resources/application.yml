@@ -6,7 +6,7 @@ logging:
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
-    default: dev
+    default: development
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
