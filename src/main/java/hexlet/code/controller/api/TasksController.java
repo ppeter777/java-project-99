@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -31,16 +30,16 @@ import java.util.List;
 public class TasksController {
 
     @Autowired
-    public TaskRepository repository;
+    private TaskRepository repository;
 
     @Autowired
-    public TaskMapper taskMapper;
+    private TaskMapper taskMapper;
 
     @Autowired
-    public TaskService taskService;
+    private TaskService taskService;
 
     @Autowired
-    public TaskSpecification specBuilder;
+    private TaskSpecification specBuilder;
 
     @GetMapping("/tasks/{id}")
     @ResponseStatus(HttpStatus.OK)

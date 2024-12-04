@@ -25,13 +25,13 @@ import java.util.List;
 public class LabelController {
 
     @Autowired
-    LabelRepository repository;
+    private LabelRepository repository;
 
     @Autowired
-    LabelMapper labelMapper;
+    private LabelMapper labelMapper;
 
     @Autowired
-    LabelService labelService;
+    private LabelService labelService;
 
     @GetMapping("/labels")
     ResponseEntity<List<LabelDTO>> index() {

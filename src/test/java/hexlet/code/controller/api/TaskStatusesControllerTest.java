@@ -85,7 +85,7 @@ public class TaskStatusesControllerTest {
                 .getResponse();
         var body = response.getContentAsString();
 
-        List<TaskStatus> taskStatuses= om.readValue(body, new TypeReference<>() {});
+        List<TaskStatus> taskStatuses = om.readValue(body, new TypeReference<>() {});
 
         var actual = taskStatuses.stream().toList();
         var expected = taskStatusRepository.findAll();

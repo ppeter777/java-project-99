@@ -41,10 +41,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TaskControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    TasksController tasksController;
+    private TasksController tasksController;
 
     @Autowired
     private ModelGenerator modelGenerator;

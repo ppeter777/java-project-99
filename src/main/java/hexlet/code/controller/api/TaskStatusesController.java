@@ -25,10 +25,10 @@ import java.util.List;
 public class TaskStatusesController {
 
     @Autowired
-    public TaskStatusRepository repository;
+    private TaskStatusRepository repository;
 
     @Autowired
-    public TaskStatusMapper taskStatusMapper;
+    private TaskStatusMapper taskStatusMapper;
 
     @GetMapping("/task_statuses")
     ResponseEntity<List<TaskStatusDTO>> index() {

@@ -27,10 +27,10 @@ import java.util.List;
 public class UsersController {
 
     @Autowired
-    public UserRepository repository;
+    private UserRepository repository;
 
     @Autowired
-    public UserMapper userMapper;
+    private UserMapper userMapper;
 
     @GetMapping("/users")
     ResponseEntity<List<UserDTO>> index() {

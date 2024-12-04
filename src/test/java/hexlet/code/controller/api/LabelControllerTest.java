@@ -39,10 +39,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LabelControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    LabelController tasksController;
+    private LabelController tasksController;
 
     @Autowired
     private ModelGenerator modelGenerator;
