@@ -27,7 +27,7 @@ public abstract class TaskMapper {
     public abstract Task map(TaskCreateDTO model);
 
     @Mapping(source = "taskStatus.slug", target = "status")
-    @Mapping(source = "assignee.id", target = "assignee_id")
+    @Mapping(source = "assignee.id", target = "assigneeId")
     @Mapping(source = "description", target = "content")
     @Mapping(source = "name", target = "title")
     @Mapping(source = "labels", target = "labelIds")
