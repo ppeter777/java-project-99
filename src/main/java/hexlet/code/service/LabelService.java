@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 public class LabelService {
 
     @Autowired
-    LabelRepository labelRepository;
+    private LabelRepository labelRepository;
 
     @Autowired
-    LabelMapper labelMapper;
+    private LabelMapper labelMapper;
 
     public LabelDTO create(LabelDTO data) {
         var label = labelMapper.map(data);

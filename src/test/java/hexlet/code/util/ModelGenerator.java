@@ -9,8 +9,6 @@ import lombok.Getter;
 import net.datafaker.Faker;
 import org.instancio.Instancio;
 import org.instancio.Select;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.instancio.Model;
 
