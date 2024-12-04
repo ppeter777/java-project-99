@@ -145,7 +145,7 @@ public class TaskControllerTest {
         var testTask = Instancio.of(modelGenerator.getTaskModel())
                 .create();
         var testTaskDto = taskMapper.map(testTask);
-        testTaskDto.setAssignee_id(testUser.getId());
+        testTaskDto.setAssigneeId(testUser.getId());
         testTaskDto.setStatus(testTaskStatus.getSlug());
         var request = post("/api/tasks")
                 .with(token)
@@ -166,7 +166,7 @@ public class TaskControllerTest {
         data.setTitle("New Name");
         data.setContent("New content");
         data.setStatus(testTaskStatus.getSlug());
-        data.setAssignee_id(testUser.getId());
+        data.setAssigneeId(testUser.getId());
 
         var request = post("/api/tasks")
                 .with(jwt())
@@ -182,7 +182,7 @@ public class TaskControllerTest {
         assertThat(task.getName()).isEqualTo(data.getTitle());
         assertThat(task.getDescription()).isEqualTo(data.getContent());
         assertThat(task.getTaskStatus().getSlug()).isEqualTo(data.getStatus());
-        assertThat(task.getAssignee().getId()).isEqualTo(data.getAssignee_id());
+        assertThat(task.getAssignee().getId()).isEqualTo(data.getAssigneeId());
     }
 
     @Test
@@ -223,7 +223,8 @@ public class TaskControllerTest {
         var slug = testTask1.getTaskStatus().getSlug();
         var labelIds = testTask1.getLabels();
         var firstLabelId = labelIds.stream().findFirst().get().getId();
-        var requestString = "/api/tasks?titleCont=" + name + "&assigneeId=" + assigneeId + "&status=" + slug + "&labelId=" + firstLabelId;
+        var requestString = "/api/tasks?titleCont=" + name +
+                "&assigneeId=" + assigneeId + "&status=" + slug + "&labelId=" + firstLabelId;
         var request = get(requestString)
                 .with(token);
         var result = mockMvc.perform(request)

@@ -18,7 +18,7 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserRepository repository;
+    private UserRepository repository;
 
     @Autowired
     private JWTUtils jwtUtils;

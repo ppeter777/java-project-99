@@ -21,7 +21,7 @@ public class TaskDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
-    private Long assignee_id;
+    private Long assigneeId;
 
     private String title;
 
