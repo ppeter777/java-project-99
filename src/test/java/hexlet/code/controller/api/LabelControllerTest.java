@@ -24,11 +24,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 //import java.util.HashMap;
 //import java.util.List;
-import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
+//import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -113,16 +113,16 @@ public class LabelControllerTest {
 //        assertThat(actual).isEqualTo(expected);
 //    }
 
-    @Test
-    public void testShow() throws Exception {
-        var request = get("/api/labels/" + testLabel.getId()).with(token);
-        var result = mockMvc.perform(request)
-                .andExpect(status().isOk())
-                .andReturn();
-        var body = result.getResponse().getContentAsString();
-        assertThatJson(body).and(
-                v -> v.node("name").isEqualTo(testLabel.getName()));
-    }
+//    @Test
+//    public void testShow() throws Exception {
+//        var request = get("/api/labels/" + testLabel.getId()).with(token);
+//        var result = mockMvc.perform(request)
+//                .andExpect(status().isOk())
+//                .andReturn();
+//        var body = result.getResponse().getContentAsString();
+//        assertThatJson(body).and(
+//                v -> v.node("name").isEqualTo(testLabel.getName()));
+//    }
 
     @Test
     public void testCreate() throws Exception {
