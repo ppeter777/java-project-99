@@ -13,16 +13,7 @@ import io.sentry.Sentry;
 @RestController
 @RequestMapping("/api")
 public class AppApplication {
-public static void main(String[] args) {
-	try {
-			throw new Exception("This is a second test.");
-		} catch (Exception e) {
-			Sentry.captureException(e);
-		}
+	public static void main(String[] args) {
 		SpringApplication.run(AppApplication.class, args);
-	}
-	@GetMapping("/welcome")
-	String home() {
-		return "Welcome to Spring";
 	}
 }
