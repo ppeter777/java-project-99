@@ -13,8 +13,6 @@ import io.sentry.Sentry;
 @RestController
 @RequestMapping("/api")
 public class AppApplication {
-//	private static final List<User> users = new ArrayList<>();
-
 	public static void main(String[] args) {
 		try {
 			throw new Exception("This is a second test.");
