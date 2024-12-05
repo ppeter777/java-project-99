@@ -10,7 +10,7 @@ public class TaskCreateDTO {
 
     private Integer index;
 
-    private String assignee_id;
+    private String assigneeId;
 
     private String title;
 

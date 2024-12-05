@@ -223,8 +223,14 @@ public class TaskControllerTest {
         var slug = testTask1.getTaskStatus().getSlug();
         var labelIds = testTask1.getLabels();
         var firstLabelId = labelIds.stream().findFirst().get().getId();
-        var requestString = "/api/tasks?titleCont=" + name +
-                "&assigneeId=" + assigneeId + "&status=" + slug + "&labelId=" + firstLabelId;
+        var requestString = "/api/tasks?titleCont="
+                + name
+                + "&assigneeId="
+                + assigneeId
+                + "&status="
+                + slug
+                + "&labelId="
+                + firstLabelId;
         var request = get(requestString)
                 .with(token);
         var result = mockMvc.perform(request)
