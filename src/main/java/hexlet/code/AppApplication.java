@@ -14,7 +14,7 @@ import io.sentry.Sentry;
 @RequestMapping("/api")
 public class AppApplication {
 public static void main(String[] args) {
-		try {
+	try {
 			throw new Exception("This is a second test.");
 		} catch (Exception e) {
 			Sentry.captureException(e);
