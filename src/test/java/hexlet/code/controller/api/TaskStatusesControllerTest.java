@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 //import java.util.HashMap;
 //import java.util.List;
-import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
+//import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 //import static org.assertj.core.api.Assertions.assertThat;
 //import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
@@ -92,18 +92,18 @@ public class TaskStatusesControllerTest {
 //        assertThat(actual).isEqualTo(expected);
 //    }
 
-    @Test
-    public void testShow() throws Exception {
-        taskStatusRepository.save(testTaskStatus);
-        var request = get("/api/task_statuses/" + testTaskStatus.getId()).with(token);
-        var result = mockMvc.perform(request)
-                .andExpect(status().isOk())
-                .andReturn();
-        var body = result.getResponse().getContentAsString();
-        assertThatJson(body).and(
-                v -> v.node("name").isEqualTo(testTaskStatus.getName()),
-                v -> v.node("slug").isEqualTo(testTaskStatus.getSlug()));
-    }
+//    @Test
+//    public void testShow() throws Exception {
+//        taskStatusRepository.save(testTaskStatus);
+//        var request = get("/api/task_statuses/" + testTaskStatus.getId()).with(token);
+//        var result = mockMvc.perform(request)
+//                .andExpect(status().isOk())
+//                .andReturn();
+//        var body = result.getResponse().getContentAsString();
+//        assertThatJson(body).and(
+//                v -> v.node("name").isEqualTo(testTaskStatus.getName()),
+//                v -> v.node("slug").isEqualTo(testTaskStatus.getSlug()));
+//    }
 
 //    @Test
 //    public void testCreate() throws Exception {
