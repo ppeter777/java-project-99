@@ -19,13 +19,13 @@ import org.springframework.web.context.WebApplicationContext;
 //import java.util.HashMap;
 //import java.util.List;
 //import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
-//import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 //import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -142,15 +142,15 @@ public class TaskStatusesControllerTest {
 //        assertThat(updatedTaskStatus.getSlug()).isEqualTo(("to_remove"));
 //    }
 
-//    @Test
-//    public void testDelete() throws Exception {
-//        taskStatusRepository.save(testTaskStatus);
-//        var id = testTaskStatus.getId();
-//        var request = delete("/api/task_statuses/" + id)
-//                .with(token);
+    @Test
+    public void testDelete() throws Exception {
+        taskStatusRepository.save(testTaskStatus);
+        var id = testTaskStatus.getId();
+        var request = delete("/api/task_statuses/" + id)
+                .with(token);
 //        assertThat(taskStatusRepository.findById(id).orElse(null)).isNotNull();
-//        mockMvc.perform(request)
-//                .andExpect(status().isNoContent());
-//        assertThat(taskStatusRepository.findById(id).orElse(null)).isNull();
-//    }
+        mockMvc.perform(request)
+                .andExpect(status().isNoContent());
+        assertThat(taskStatusRepository.findById(id).orElse(null)).isNull();
+    }
 }

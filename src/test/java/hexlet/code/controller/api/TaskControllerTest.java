@@ -216,32 +216,32 @@ public class TaskControllerTest {
 //        assertThat(taskRepository.findById(id).orElse(null)).isNull();
     }
 
-//    @Test
-//    public void testFilter() throws Exception {
-//        var name = testTask1.getName();
-//        var assigneeId = testTask1.getAssignee().getId();
-//        var slug = testTask1.getTaskStatus().getSlug();
-//        var labelIds = testTask1.getLabels();
-//        var firstLabelId = labelIds.stream().findFirst().get().getId();
-//        var requestString = "/api/tasks?titleCont="
-//                + name
-//                + "&assigneeId="
-//                + assigneeId
-//                + "&status="
-//                + slug
-//                + "&labelId="
-//                + firstLabelId;
-//        var request = get(requestString)
-//                .with(token);
-//        var result = mockMvc.perform(request)
-//                .andExpect(status().isOk())
-//                .andReturn();
-//        var body = result.getResponse().getContentAsString();
-//        assertThatJson(body).isArray().allSatisfy(element ->
-//                assertThatJson(element)
-//                        .and(v -> v.node("title").asString().containsIgnoringCase(name))
-//                        .and(v -> v.node("assignee_id").isEqualTo(assigneeId))
-//                        .and(v -> v.node("status").isEqualTo(slug))
-//                        .and(v -> v.node("labelIds").isArray()));
-//    }
+    @Test
+    public void testFilter() throws Exception {
+        var name = testTask1.getName();
+        var assigneeId = testTask1.getAssignee().getId();
+        var slug = testTask1.getTaskStatus().getSlug();
+        var labelIds = testTask1.getLabels();
+        var firstLabelId = labelIds.stream().findFirst().get().getId();
+        var requestString = "/api/tasks?titleCont="
+                + name
+                + "&assigneeId="
+                + assigneeId
+                + "&status="
+                + slug
+                + "&labelId="
+                + firstLabelId;
+        var request = get(requestString)
+                .with(token);
+        var result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+        var body = result.getResponse().getContentAsString();
+        assertThatJson(body).isArray().allSatisfy(element ->
+                assertThatJson(element)
+                        .and(v -> v.node("title").asString().containsIgnoringCase(name))
+                        .and(v -> v.node("assigneeId").isEqualTo(assigneeId))
+                        .and(v -> v.node("status").isEqualTo(slug))
+                        .and(v -> v.node("labelIds").isArray()));
+    }
 }
