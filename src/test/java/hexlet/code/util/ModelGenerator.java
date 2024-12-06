@@ -43,14 +43,14 @@ public class ModelGenerator {
 //                .ignore(Select.field(Task::getTaskStatus))
                 .ignore(Select.field(Task::getLabels))
                 .supply(Select.field(Task::getIndex), () -> faker.number().positive())
-                .supply(Select.field(Task::getName), () -> faker.lorem().word())
+                .supply(Select.field(Task::getName), () -> faker.lorem().fixedString(5))
                 .supply(Select.field(Task::getDescription), () -> faker.lorem().sentence())
                 .toModel();
 
         labelModel = Instancio.of(Label.class)
                 .ignore(Select.field(Label::getId))
-                .ignore(Select.field(Label::getTaskList))
-                .supply(Select.field(Label::getName), () -> faker.lorem().word())
+                .ignore(Select.field(Label::getTaskSet))
+                .supply(Select.field(Label::getName), () -> faker.lorem().fixedString(5))
                 .toModel();
     }
 }
