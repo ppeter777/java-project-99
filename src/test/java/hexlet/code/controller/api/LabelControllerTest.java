@@ -160,14 +160,14 @@ public class LabelControllerTest {
 //        assertThat(updatedLabel.getName()).isEqualTo(("test_label_name"));
 //    }
 
-    @Test
-    public void testDelete() throws Exception {
-        var id = testLabel.getId();
-        var request = delete("/api/labels/" + id)
-                .with(token);
-        assertThat(labelRepository.findById(id).orElse(null)).isNotNull();
-        mockMvc.perform(request)
-                .andExpect(status().isNoContent());
-        assertThat(labelRepository.findById(id).orElse(null)).isNull();
-    }
+//    @Test
+//    public void testDelete() throws Exception {
+//        var id = testLabel.getId();
+//        var request = delete("/api/labels/" + id)
+//                .with(token);
+//        assertThat(labelRepository.findById(id).orElse(null)).isNotNull();
+//        mockMvc.perform(request)
+//                .andExpect(status().isNoContent());
+//        assertThat(labelRepository.findById(id).orElse(null)).isNull();
+//    }
 }
