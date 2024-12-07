@@ -81,22 +81,22 @@ public class TaskStatusesControllerTest {
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel()).create();
 //        testLabel = Instancio.of(modelGenerator.getLabelModel()).create();
-        testTask = Instancio.of(modelGenerator.getTaskModel()).create();
-        testUser = Instancio.of(modelGenerator.getUserModel()).create();
-
-        testTask.setTaskStatus(testTaskStatus);
-        testTask.setAssignee(testUser);
-
-        userRepository.save(testUser);
-        taskStatusRepository.save(testTaskStatus);
-        taskRepository.save(testTask);
+//        testTask = Instancio.of(modelGenerator.getTaskModel()).create();
+//        testUser = Instancio.of(modelGenerator.getUserModel()).create();
+//
+//        testTask.setTaskStatus(testTaskStatus);
+//        testTask.setAssignee(testUser);
+//
+//        userRepository.save(testUser);
+//        taskStatusRepository.save(testTaskStatus);
+//        taskRepository.save(testTask);
 //        labelRepository.save(testLabel);
     }
 
-//    @AfterEach
-//    public void clean() {
-//        taskStatusRepository.deleteAll();
-//    }
+    @AfterEach
+    public void clean() {
+        taskStatusRepository.deleteAll();
+    }
 
     @Test
     public void testIndex() throws Exception {
@@ -133,8 +133,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var data = Instancio.of(modelGenerator.getTaskStatusModel())
-                .create();
+        var data = Instancio.of(modelGenerator.getTaskStatusModel()).create();
         var request = post("/api/task_statuses")
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -151,6 +150,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
+        taskStatusRepository.save(testTaskStatus);
         var data = new HashMap<>();
         data.put("name", "To remove");
         data.put("slug", "to_remove");
@@ -170,6 +170,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testDelete() throws Exception {
+        taskStatusRepository.save(testTaskStatus);
         var id = testTaskStatus.getId();
         var request = delete("/api/task_statuses/" + id)
                 .with(token);
