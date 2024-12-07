@@ -3,8 +3,14 @@ package hexlet.code.controller.api;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.mapper.TaskStatusMapper;
+import hexlet.code.model.Label;
+import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
+import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
+import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
+import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelGenerator;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
@@ -51,21 +57,46 @@ public class TaskStatusesControllerTest {
     @Autowired
     private TaskStatusMapper taskStatusMapper;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private LabelRepository labelRepository;
+
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
 
     private TaskStatus testTaskStatus;
+
+    private Label testLabel;
+
+    private User testUser;
+
+    private Task testTask;
 
     @BeforeEach
     public void setUp() {
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel()).create();
+//        testLabel = Instancio.of(modelGenerator.getLabelModel()).create();
+        testTask = Instancio.of(modelGenerator.getTaskModel()).create();
+        testUser = Instancio.of(modelGenerator.getUserModel()).create();
+
+        testTask.setTaskStatus(testTaskStatus);
+        testTask.setAssignee(testUser);
+
+        userRepository.save(testUser);
         taskStatusRepository.save(testTaskStatus);
+        taskRepository.save(testTask);
+//        labelRepository.save(testLabel);
     }
 
-    @AfterEach
-    public void clean() {
-        taskStatusRepository.deleteAll();
-    }
+//    @AfterEach
+//    public void clean() {
+//        taskStatusRepository.deleteAll();
+//    }
 
     @Test
     public void testIndex() throws Exception {
