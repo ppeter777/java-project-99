@@ -93,10 +93,10 @@ public class TaskStatusesControllerTest {
 //        labelRepository.save(testLabel);
     }
 
-    @AfterEach
-    public void clean() {
-        taskStatusRepository.deleteAll();
-    }
+//    @AfterEach
+//    public void clean() {
+//        taskStatusRepository.deleteAll();
+//    }
 
     @Test
     public void testIndex() throws Exception {
