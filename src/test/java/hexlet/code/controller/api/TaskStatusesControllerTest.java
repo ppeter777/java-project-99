@@ -7,6 +7,7 @@ import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.util.ModelGenerator;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,11 @@ public class TaskStatusesControllerTest {
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel())
                 .create();
         taskStatusRepository.save(testTaskStatus);
+    }
+
+    @AfterEach
+    public void clean() {
+        taskStatusRepository.deleteAll();
     }
 
     @Test
