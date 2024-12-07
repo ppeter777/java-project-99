@@ -94,7 +94,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testShow() throws Exception {
-        taskStatusRepository.save(testTaskStatus);
+//        taskStatusRepository.save(testTaskStatus);
         var request = get("/api/task_statuses/" + testTaskStatus.getId()).with(token);
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -144,7 +144,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        taskStatusRepository.save(testTaskStatus);
+//        taskStatusRepository.save(testTaskStatus);
         var id = testTaskStatus.getId();
         var request = delete("/api/task_statuses/" + id)
                 .with(token);
