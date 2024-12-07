@@ -34,8 +34,8 @@ public class ModelGenerator {
 
         taskStatusModel = Instancio.of(TaskStatus.class)
                 .ignore(Select.field(TaskStatus::getId))
-                .supply(Select.field(TaskStatus::getName), () -> faker.subscription().statuses())
-                .supply(Select.field(TaskStatus::getSlug), () -> faker.internet().slug())
+                .supply(Select.field(TaskStatus::getName), () -> faker.lorem().fixedString(5))
+                .supply(Select.field(TaskStatus::getSlug), () -> faker.lorem().fixedString(5))
                 .toModel();
 
         taskModel = Instancio.of(Task.class)
