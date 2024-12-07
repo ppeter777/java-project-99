@@ -1,6 +1,6 @@
 package hexlet.code.controller.api;
 
-//import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
@@ -23,7 +23,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import java.util.HashMap;
-//import java.util.List;
+import java.util.List;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -83,14 +83,14 @@ public class LabelControllerTest {
     public void setUp() {
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
         testLabel = Instancio.of(modelGenerator.getLabelModel()).create();
-        testTask = Instancio.of(modelGenerator.getTaskModel()).create();
-        testUser = Instancio.of(modelGenerator.getUserModel()).create();
-        userRepository.save(testUser);
-        testTaskStatus = taskStatusRepository.findAll().get(0);
-
-        testTask.setTaskStatus(testTaskStatus);
-        testTask.setAssignee(testUser);
-        taskRepository.save(testTask);
+//        testTask = Instancio.of(modelGenerator.getTaskModel()).create();
+//        testUser = Instancio.of(modelGenerator.getUserModel()).create();
+//        userRepository.save(testUser);
+//        testTaskStatus = taskStatusRepository.findAll().get(0);
+//
+//        testTask.setTaskStatus(testTaskStatus);
+//        testTask.setAssignee(testUser);
+//        taskRepository.save(testTask);
         labelRepository.save(testLabel);
     }
 
