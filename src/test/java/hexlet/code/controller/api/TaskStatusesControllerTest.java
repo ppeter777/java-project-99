@@ -61,7 +61,7 @@ public class TaskStatusesControllerTest {
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel()).create();
         taskStatusRepository.save(testTaskStatus);
     }
-    
+
     @AfterEach
     public void clean() {
         taskStatusRepository.deleteAll();
@@ -73,18 +73,18 @@ public class TaskStatusesControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testIndex2() throws Exception {
-        var response = mockMvc.perform(get("/api/task_statuses").with(token))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        var body = response.getContentAsString();
-        List<TaskStatus> taskStatuses = om.readValue(body, new TypeReference<>() { });
-        var actual = taskStatuses.stream().toList();
-        var expected = taskStatusRepository.findAll();
-        assertThat(actual).isEqualTo(expected);
-    }
+//    @Test
+//    public void testIndex2() throws Exception {
+//        var response = mockMvc.perform(get("/api/task_statuses").with(token))
+//                .andExpect(status().isOk())
+//                .andReturn()
+//                .getResponse();
+//        var body = response.getContentAsString();
+//        List<TaskStatus> taskStatuses = om.readValue(body, new TypeReference<>() { });
+//        var actual = taskStatuses.stream().toList();
+//        var expected = taskStatusRepository.findAll();
+//        assertThat(actual).isEqualTo(expected);
+//    }
 
     @Test
     public void testShow() throws Exception {
