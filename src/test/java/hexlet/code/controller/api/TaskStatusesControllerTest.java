@@ -2,18 +2,10 @@ package hexlet.code.controller.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.mapper.TaskStatusMapper;
-import hexlet.code.model.Label;
-import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
-import hexlet.code.model.User;
-import hexlet.code.repository.LabelRepository;
-import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
-import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelGenerator;
 import org.instancio.Instancio;
-//import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,49 +46,16 @@ public class TaskStatusesControllerTest {
     @Autowired
     private ObjectMapper om;
 
-    @Autowired
-    private TaskStatusMapper taskStatusMapper;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private LabelRepository labelRepository;
-
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
 
     private TaskStatus testTaskStatus;
-
-    private Label testLabel;
-
-    private User testUser;
-
-    private Task testTask;
 
     @BeforeEach
     public void setUp() {
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel()).create();
-//        testLabel = Instancio.of(modelGenerator.getLabelModel()).create();
-//        testTask = Instancio.of(modelGenerator.getTaskModel()).create();
-//        testUser = Instancio.of(modelGenerator.getUserModel()).create();
-//
-//        testTask.setTaskStatus(testTaskStatus);
-//        testTask.setAssignee(testUser);
-//
-//        userRepository.save(testUser);
-//        taskStatusRepository.save(testTaskStatus);
-//        taskRepository.save(testTask);
-//        labelRepository.save(testLabel);
+        taskStatusRepository.save(testTaskStatus);
     }
-
-//    @AfterEach
-//    public void clean() {
-//        taskStatusRepository.deleteAll();
-//    }
 
     @Test
     public void testIndex() throws Exception {
@@ -119,7 +78,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testShow() throws Exception {
-        taskStatusRepository.save(testTaskStatus);
+//        taskStatusRepository.save(testTaskStatus);
         var request = get("/api/task_statuses/" + testTaskStatus.getId()).with(token);
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -150,7 +109,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        taskStatusRepository.save(testTaskStatus);
+//        taskStatusRepository.save(testTaskStatus);
         var data = new HashMap<>();
         data.put("name", "To remove");
         data.put("slug", "to_remove");
@@ -170,7 +129,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        taskStatusRepository.save(testTaskStatus);
+//        taskStatusRepository.save(testTaskStatus);
         var id = testTaskStatus.getId();
         var request = delete("/api/task_statuses/" + id)
                 .with(token);

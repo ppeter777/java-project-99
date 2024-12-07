@@ -1,6 +1,6 @@
 package hexlet.code.controller.api;
 
-//import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
@@ -109,18 +109,18 @@ public class UsersControllerTest {
         assertThat(user.getLastName()).isEqualTo(("Sobakin"));
     }
 
-//    @Test
-//    public void testShow() throws Exception {
-//        var request = get("/api/users/" + testUser.getId()).with(jwt());
-//        var result = mockMvc.perform(request)
-//                .andExpect(status().isOk())
-//                .andReturn();
-//        var body = result.getResponse().getContentAsString();
-//        assertThatJson(body).and(
+    @Test
+    public void testShow() throws Exception {
+        var request = get("/api/users/" + testUser.getId()).with(jwt());
+        var result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+        var body = result.getResponse().getContentAsString();
+        assertThatJson(body).and(
 //                v -> v.node("username").isEqualTo(testUser.getEmail()),
-//                v -> v.node("firstName").isEqualTo(testUser.getFirstName()),
-//                v -> v.node("lastName").isEqualTo(testUser.getLastName()));
-//    }
+                v -> v.node("firstName").isEqualTo(testUser.getFirstName()),
+                v -> v.node("lastName").isEqualTo(testUser.getLastName()));
+    }
 
     @Test
     public void testCreate() throws Exception {
