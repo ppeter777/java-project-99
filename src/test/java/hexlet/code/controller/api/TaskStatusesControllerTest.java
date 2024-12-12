@@ -59,12 +59,6 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testIndex() throws Exception {
-        mockMvc.perform(get("/api/task_statuses").with(token))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testIndex2() throws Exception {
         var response = mockMvc.perform(get("/api/task_statuses").with(token))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -78,7 +72,6 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testShow() throws Exception {
-//        taskStatusRepository.save(testTaskStatus);
         var request = get("/api/task_statuses/" + testTaskStatus.getId()).with(token);
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -99,9 +92,7 @@ public class TaskStatusesControllerTest {
                 .content(om.writeValueAsString(data));
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
-
         var createdTaskStatus = taskStatusRepository.getTaskStatusBySlug(data.getSlug()).get();
-
         assertNotNull(createdTaskStatus);
         assertThat(createdTaskStatus.getName()).isEqualTo(data.getName());
         assertThat(createdTaskStatus.getSlug()).isEqualTo(data.getSlug());
@@ -109,19 +100,15 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-//        taskStatusRepository.save(testTaskStatus);
         var data = new HashMap<>();
         data.put("name", "To remove");
         data.put("slug", "to_remove");
-
         var request = put("/api/task_statuses/" + testTaskStatus.getId())
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
-
         mockMvc.perform(request)
                 .andExpect(status().isOk());
-
         var updatedTaskStatus = taskStatusRepository.findById(testTaskStatus.getId()).get();
         assertThat(updatedTaskStatus.getName()).isEqualTo(("To remove"));
         assertThat(updatedTaskStatus.getSlug()).isEqualTo(("to_remove"));
@@ -129,7 +116,6 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-//        taskStatusRepository.save(testTaskStatus);
         var id = testTaskStatus.getId();
         var request = delete("/api/task_statuses/" + id)
                 .with(token);

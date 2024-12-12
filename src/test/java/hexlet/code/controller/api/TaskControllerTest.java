@@ -1,6 +1,6 @@
 package hexlet.code.controller.api;
 
-//import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.TaskDTO;
 import hexlet.code.mapper.TaskMapper;
@@ -24,7 +24,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import java.util.HashMap;
-//import java.util.List;
+import java.util.List;
 import java.util.Set;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -71,24 +71,18 @@ public class TaskControllerTest {
     private TaskMapper taskMapper;
 
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
-
     private User testUser;
-
     private TaskStatus testTaskStatus;
-
     private Task testTask1;
-
     private Task testTask2;
-
     private Label label1;
 
     @BeforeEach
     public void setUp() {
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
-        testTask1 = Instancio.of(modelGenerator.getTaskModel())
-                .create();
-        testTask2 = Instancio.of(modelGenerator.getTaskModel())
-                .create();
+        testTask1 = Instancio.of(modelGenerator.getTaskModel()).create();
+        testTask2 = Instancio.of(modelGenerator.getTaskModel()).create();
+        testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel()).create();
         testUser = Instancio.of(modelGenerator.getUserModel()).create();
         userRepository.save(testUser);
         testTaskStatus = taskStatusRepository.findAll().get(0);
@@ -104,29 +98,16 @@ public class TaskControllerTest {
 
     @Test
     public void testIndex() throws Exception {
-
-
-
-        mockMvc.perform(get("/api/tasks").with(token))
-                .andExpect(status().isOk());
+        var response = mockMvc.perform(get("/api/tasks").with(token))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+        var body = response.getContentAsString();
+        List<TaskDTO> taskDTOS = om.readValue(body, new TypeReference<>() { });
+        List<Task> actual = taskDTOS.stream().map(taskMapper::map).toList();
+        var expected = taskRepository.findAll();
+        assertThat(actual).isEqualTo(expected);
     }
-
-//    @Test
-//    public void testIndex2() throws Exception {
-//
-//        var response = mockMvc.perform(get("/api/tasks").with(token))
-//                .andExpect(status().isOk())
-//                .andReturn()
-//                .getResponse();
-//        var body = response.getContentAsString();
-//
-//        List<Task> tasks = om.readValue(body, new TypeReference<>() {
-//        });
-//
-//        var actual = tasks.stream().toList();
-//        var expected = taskRepository.findAll();
-//        assertThat(actual).isEqualTo(expected);
-//    }
 
     @Test
     public void testShow() throws Exception {
@@ -153,9 +134,7 @@ public class TaskControllerTest {
                 .content(om.writeValueAsString(testTaskDto));
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
-
         var task = taskRepository.getTaskByName(testTask.getName());
-
         assertNotNull(task);
         assertThat(task.get().getDescription()).isEqualTo(testTask.getDescription());
     }
@@ -167,17 +146,13 @@ public class TaskControllerTest {
         data.setContent("New content");
         data.setStatus(testTaskStatus.getSlug());
         data.setAssigneeId(testUser.getId());
-
         var request = post("/api/tasks")
                 .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
-
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
-
         var task = taskRepository.getTaskByName(data.getTitle()).orElse(null);
-
         assertThat(task).isNotNull();
         assertThat(task.getName()).isEqualTo(data.getTitle());
         assertThat(task.getDescription()).isEqualTo(data.getContent());
@@ -195,10 +170,8 @@ public class TaskControllerTest {
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
-
         mockMvc.perform(request)
                 .andExpect(status().isOk());
-
         var updatedTask = taskRepository.findById(testTask1.getId()).get();
         assertThat(updatedTask.getName()).isEqualTo(("test_name"));
         assertThat(updatedTask.getDescription()).isEqualTo(("test_description"));
@@ -207,13 +180,13 @@ public class TaskControllerTest {
     @Test
     public void testDelete() throws Exception {
         var id = testTask1.getId();
-        var request = delete("/api/task_statuses/" + id)
+        var request = delete("/api/tasks/" + id)
                 .with(token);
         assertThat(taskRepository.findById(id).orElse(null)).isNotNull();
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
-//        var task = taskRepository.findById(id);
-//        assertThat(taskRepository.findById(id).orElse(null)).isNull();
+        var task = taskRepository.findById(id);
+        assertThat(taskRepository.findById(id).orElse(null)).isNull();
     }
 
     @Test

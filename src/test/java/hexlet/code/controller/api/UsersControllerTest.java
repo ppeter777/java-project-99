@@ -76,12 +76,6 @@ public class UsersControllerTest {
 
     @Test
     public void testIndex() throws Exception {
-        mockMvc.perform(get("/api/users").with(token))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testIndex2() throws Exception {
         var response = mockMvc.perform(get("/api/users").with(token))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -90,7 +84,7 @@ public class UsersControllerTest {
         List<UserDTO> userDTOS = om.readValue(body, new TypeReference<>() { });
         var actual = userDTOS.stream().map(userMapper::map).toList();
         var expected = userRepository.findAll();
-        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
