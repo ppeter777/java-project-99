@@ -42,6 +42,7 @@ dependencies {
 	implementation("net.datafaker:datafaker:2.0.2")
 	implementation("org.instancio:instancio-junit:3.6.0")
 	implementation("net.javacrumbs.json-unit:json-unit-assertj:3.2.2")
+	implementation("org.postgresql:postgresql:42.7.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation(platform("org.junit:junit-bom:5.10.0"))
 	testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
