@@ -141,4 +141,24 @@ public class UsersControllerTest {
                 .andExpect(status().isNoContent());
         assertThat(userRepository.findById(id).orElse(null)).isNull();
     }
+
+    @Test
+    public void unauthorizedTest() throws Exception {
+        mockMvc.perform(get("/api/users"))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(put("/api/users/" + testUser.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(get("/api/users/" + testUser.getId()))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(delete("/api/users/" + testUser.getId()))
+                .andExpect(status().isUnauthorized());
+    }
 }

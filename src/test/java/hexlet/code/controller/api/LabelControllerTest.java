@@ -3,9 +3,6 @@ package hexlet.code.controller.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
-import hexlet.code.model.Task;
-import hexlet.code.model.TaskStatus;
-import hexlet.code.model.User;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.util.ModelGenerator;
 import org.instancio.Instancio;
@@ -56,9 +53,6 @@ public class LabelControllerTest {
 
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
     private Label testLabel;
-    private User testUser;
-    private TaskStatus testTaskStatus;
-    private Task testTask;
 
     @BeforeEach
     public void setUp() {
@@ -127,5 +121,25 @@ public class LabelControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
         assertThat(labelRepository.findById(id).orElse(null)).isNull();
+    }
+
+    @Test
+    public void unauthorizedTest() throws Exception {
+        mockMvc.perform(get("/api/labels"))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(post("/api/labels")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(put("/api/labels/" + testLabel.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(get("/api/labels/" + testLabel.getId()))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(delete("/api/labels/" + testLabel.getId()))
+                .andExpect(status().isUnauthorized());
     }
 }

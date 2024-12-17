@@ -9,9 +9,7 @@ import java.time.LocalDate;
 @Setter
 public class TaskStatusDTO {
     private Long id;
-
     private String name;
-
     private String slug;
 
     @JsonFormat(pattern = "yyyy-MM-dd")

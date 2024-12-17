@@ -124,4 +124,24 @@ public class TaskStatusesControllerTest {
                 .andExpect(status().isNoContent());
         assertThat(taskStatusRepository.findById(id).orElse(null)).isNull();
     }
+
+    @Test
+    public void unauthorizedTest() throws Exception {
+        mockMvc.perform(get("/api/task_statuses"))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(post("/api/task_statuses")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(put("/api/task_statuses/" + testTaskStatus.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(get("/api/task_statuses/" + testTaskStatus.getId()))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(delete("/api/task_statuses/" + testTaskStatus.getId()))
+                .andExpect(status().isUnauthorized());
+    }
 }

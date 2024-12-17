@@ -26,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -75,20 +76,31 @@ public class TaskControllerTest {
     private TaskStatus testTaskStatus;
     private Task testTask1;
     private Task testTask2;
-    private Label label1;
+    private Label testLabel1;
+    private Label testLabel2;
 
     @BeforeEach
     public void setUp() {
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
         testTask1 = Instancio.of(modelGenerator.getTaskModel()).create();
         testTask2 = Instancio.of(modelGenerator.getTaskModel()).create();
+
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel()).create();
+        taskStatusRepository.save(testTaskStatus);
+        testTaskStatus = taskStatusRepository.getTaskStatusBySlug(testTaskStatus.getSlug()).orElseThrow();
+
+        testLabel1 = Instancio.of(modelGenerator.getLabelModel()).create();
+        testLabel2 = Instancio.of(modelGenerator.getLabelModel()).create();
+        labelRepository.save(testLabel1);
+        labelRepository.save(testLabel2);
+        testLabel1 = labelRepository.getLabelByName(testLabel1.getName()).orElseThrow();
+        testLabel2 = labelRepository.getLabelByName(testLabel2.getName()).orElseThrow();
+
         testUser = Instancio.of(modelGenerator.getUserModel()).create();
         userRepository.save(testUser);
-        testTaskStatus = taskStatusRepository.findAll().get(0);
+
         testTask1.setTaskStatus(testTaskStatus);
-        label1 = labelRepository.findAll().getFirst();
-        testTask1.setLabels(Set.of(label1));
+        testTask1.setLabels(Set.of(testLabel1, testLabel2));
         testTask2.setTaskStatus(testTaskStatus);
         testTask1.setAssignee(testUser);
         testTask2.setAssignee(testUser);
@@ -126,7 +138,7 @@ public class TaskControllerTest {
         var testTask = Instancio.of(modelGenerator.getTaskModel())
                 .create();
         var testTaskDto = taskMapper.map(testTask);
-        testTaskDto.setAssigneeId(testUser.getId());
+        testTaskDto.setAssignee_id(testUser.getId());
         testTaskDto.setStatus(testTaskStatus.getSlug());
         var request = post("/api/tasks")
                 .with(token)
@@ -145,9 +157,9 @@ public class TaskControllerTest {
         data.setTitle("New Name");
         data.setContent("New content");
         data.setStatus(testTaskStatus.getSlug());
-        data.setAssigneeId(testUser.getId());
+        data.setAssignee_id(testUser.getId());
         var request = post("/api/tasks")
-                .with(jwt())
+                .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
         mockMvc.perform(request)
@@ -157,7 +169,7 @@ public class TaskControllerTest {
         assertThat(task.getName()).isEqualTo(data.getTitle());
         assertThat(task.getDescription()).isEqualTo(data.getContent());
         assertThat(task.getTaskStatus().getSlug()).isEqualTo(data.getStatus());
-        assertThat(task.getAssignee().getId()).isEqualTo(data.getAssigneeId());
+        assertThat(task.getAssignee().getId()).isEqualTo(data.getAssignee_id());
     }
 
     @Test
@@ -192,14 +204,14 @@ public class TaskControllerTest {
     @Test
     public void testFilter() throws Exception {
         var name = testTask1.getName();
-        var assigneeId = testTask1.getAssignee().getId();
+        var assignee_id = testTask1.getAssignee().getId();
         var slug = testTask1.getTaskStatus().getSlug();
-        var labelIds = testTask1.getLabels();
-        var firstLabelId = labelIds.stream().findFirst().get().getId();
+        var labelIds = testTask1.getLabels().stream().map(Label::getId).collect(Collectors.toSet());
+        var firstLabelId = labelIds.stream().findFirst().orElseThrow();
         var requestString = "/api/tasks?titleCont="
                 + name
-                + "&assigneeId="
-                + assigneeId
+                + "&assignee_id="
+                + assignee_id
                 + "&status="
                 + slug
                 + "&labelId="
@@ -213,8 +225,28 @@ public class TaskControllerTest {
         assertThatJson(body).isArray().allSatisfy(element ->
                 assertThatJson(element)
                         .and(v -> v.node("title").asString().containsIgnoringCase(name))
-                        .and(v -> v.node("assigneeId").isEqualTo(assigneeId))
+                        .and(v -> v.node("assignee_id").isEqualTo(assignee_id))
                         .and(v -> v.node("status").isEqualTo(slug))
-                        .and(v -> v.node("labelIds").isArray()));
+                        .and(v -> v.node("taskLabelIds").isEqualTo(labelIds)));
+    }
+
+    @Test
+    public void unauthorizedTest() throws Exception {
+        mockMvc.perform(get("/api/tasks"))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(post("/api/tasks")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(put("/api/tasks/" + testTask1.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(get("/api/tasks/" + testTask1.getId()))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(delete("/api/tasks/" + testTask1.getId()))
+                .andExpect(status().isUnauthorized());
     }
 }

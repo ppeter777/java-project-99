@@ -40,7 +40,6 @@ public class ModelGenerator {
 
         taskModel = Instancio.of(Task.class)
                 .ignore(Select.field(Task::getId))
-//                .ignore(Select.field(Task::getTaskStatus))
                 .ignore(Select.field(Task::getLabels))
                 .supply(Select.field(Task::getIndex), () -> faker.number().positive())
                 .supply(Select.field(Task::getName), () -> faker.lorem().word())

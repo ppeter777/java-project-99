@@ -38,15 +38,11 @@ public class User implements UserDetails, BaseEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @ToString.Include
     private String firstName;
 
-    @ToString.Include
     private String lastName;
 
     @Column(unique = true)
-    @ToString.Include
-
     @Email
     private String email;
 

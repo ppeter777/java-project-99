@@ -6,28 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDTO {
-
     private Long id;
-
     private Integer index;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
-    private Long assigneeId;
-
+    private Long assignee_id;
     private String title;
-
     private String content;
-
     private String status;
-
-    private List<Long> labelIds;
+    private Set<Long> taskLabelIds;
 }

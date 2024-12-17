@@ -18,8 +18,7 @@ public class TaskStatusService {
 
     public List<TaskStatus> getAll() {
         var taskStatuses = repository.findAll();
-        var result = taskStatuses.stream()
+        return taskStatuses.stream()
                 .toList();
-        return result;
     }
 }

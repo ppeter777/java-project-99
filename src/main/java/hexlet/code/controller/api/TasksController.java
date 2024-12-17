@@ -3,6 +3,7 @@ package hexlet.code.controller.api;
 import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.dto.TaskDTO;
 import hexlet.code.dto.TaskParamsDTO;
+import hexlet.code.dto.TaskUpdateDTO;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.TaskRepository;
@@ -69,7 +70,7 @@ public class TasksController {
 
     @PutMapping("/tasks/{id}")
     @ResponseStatus(HttpStatus.OK)
-    TaskDTO update(@RequestBody TaskCreateDTO data, @PathVariable Long id) {
+    TaskDTO update(@RequestBody TaskUpdateDTO data, @PathVariable Long id) {
         return taskService.update(data, id);
     }
 
