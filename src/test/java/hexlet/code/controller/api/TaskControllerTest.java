@@ -110,7 +110,7 @@ public class TaskControllerTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    public void clearRepositories() {
         taskRepository.deleteAll();
         taskStatusRepository.deleteAll();
         userRepository.deleteAll();
