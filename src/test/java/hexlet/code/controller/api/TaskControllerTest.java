@@ -14,6 +14,7 @@ import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelGenerator;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +109,14 @@ public class TaskControllerTest {
         taskRepository.save(testTask2);
     }
 
+    @AfterEach
+    public void tearDown() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        userRepository.deleteAll();
+        labelRepository.deleteAll();
+    }
+
     @Test
     public void testIndex() throws Exception {
         var response = mockMvc.perform(get("/api/tasks").with(token))
@@ -137,13 +146,13 @@ public class TaskControllerTest {
     public void testCreate() throws Exception {
         var testTask = Instancio.of(modelGenerator.getTaskModel())
                 .create();
-        var testTaskDto = taskMapper.map(testTask);
-        testTaskDto.setAssigneeId(testUser.getId());
-        testTaskDto.setStatus(testTaskStatus.getSlug());
+        var testTaskDTO = taskMapper.map(testTask);
+        testTaskDTO.setAssigneeId(testUser.getId());
+        testTaskDTO.setStatus(testTaskStatus.getSlug());
         var request = post("/api/tasks")
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(testTaskDto));
+                .content(om.writeValueAsString(testTaskDTO));
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
         var task = taskRepository.getTaskByName(testTask.getName());
