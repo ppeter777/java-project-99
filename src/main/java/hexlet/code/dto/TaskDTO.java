@@ -1,6 +1,7 @@
 package hexlet.code.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,9 @@ public class TaskDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
-    private Long assignee_id;
+    @JsonProperty("assignee_id")
+    private Long assigneeId;
+
     private String title;
     private String content;
     private String status;

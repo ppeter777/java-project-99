@@ -138,7 +138,7 @@ public class TaskControllerTest {
         var testTask = Instancio.of(modelGenerator.getTaskModel())
                 .create();
         var testTaskDto = taskMapper.map(testTask);
-        testTaskDto.setAssignee_id(testUser.getId());
+        testTaskDto.setAssigneeId(testUser.getId());
         testTaskDto.setStatus(testTaskStatus.getSlug());
         var request = post("/api/tasks")
                 .with(token)
@@ -157,7 +157,7 @@ public class TaskControllerTest {
         data.setTitle("New Name");
         data.setContent("New content");
         data.setStatus(testTaskStatus.getSlug());
-        data.setAssignee_id(testUser.getId());
+        data.setAssigneeId(testUser.getId());
         var request = post("/api/tasks")
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -169,7 +169,7 @@ public class TaskControllerTest {
         assertThat(task.getName()).isEqualTo(data.getTitle());
         assertThat(task.getDescription()).isEqualTo(data.getContent());
         assertThat(task.getTaskStatus().getSlug()).isEqualTo(data.getStatus());
-        assertThat(task.getAssignee().getId()).isEqualTo(data.getAssignee_id());
+        assertThat(task.getAssignee().getId()).isEqualTo(data.getAssigneeId());
     }
 
     @Test
@@ -204,14 +204,14 @@ public class TaskControllerTest {
     @Test
     public void testFilter() throws Exception {
         var name = testTask1.getName();
-        var assignee_id = testTask1.getAssignee().getId();
+        var assigneeId = testTask1.getAssignee().getId();
         var slug = testTask1.getTaskStatus().getSlug();
         var labelIds = testTask1.getLabels().stream().map(Label::getId).collect(Collectors.toSet());
         var firstLabelId = labelIds.stream().findFirst().orElseThrow();
         var requestString = "/api/tasks?titleCont="
                 + name
                 + "&assignee_id="
-                + assignee_id
+                + assigneeId
                 + "&status="
                 + slug
                 + "&labelId="
@@ -225,7 +225,7 @@ public class TaskControllerTest {
         assertThatJson(body).isArray().allSatisfy(element ->
                 assertThatJson(element)
                         .and(v -> v.node("title").asString().containsIgnoringCase(name))
-                        .and(v -> v.node("assignee_id").isEqualTo(assignee_id))
+                        .and(v -> v.node("assignee_id").isEqualTo(assigneeId))
                         .and(v -> v.node("status").isEqualTo(slug))
                         .and(v -> v.node("taskLabelIds").isEqualTo(labelIds)));
     }
