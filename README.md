@@ -23,12 +23,12 @@
 
 ### Локальная установка
 
-    git clone git@github.com:ppeter777/java-project-72.git
-    cd java-project-72/app
+    git clone git@github.com:ppeter777/java-project-99.git
+    cd java-project-99
     make install
     
 ### Локальный запуск
     
-    make run
+    make run-dist
 
 в браузере перейти на http://localhost:8080/
