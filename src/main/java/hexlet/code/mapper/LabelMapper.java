@@ -7,7 +7,6 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
-
 import java.util.List;
 
 @Mapper(uses = {JsonNullableMapper.class, ReferenceMapper.class},
