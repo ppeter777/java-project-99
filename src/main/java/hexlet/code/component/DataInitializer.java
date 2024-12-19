@@ -1,5 +1,6 @@
 package hexlet.code.component;
 
+import hexlet.code.dto.UserCreateDTO;
 import hexlet.code.model.Label;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
@@ -31,10 +32,12 @@ public class DataInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         var email = "hexlet@example.com";
-        var userData = new User();
-        userData.setEmail(email);
-        userData.setPasswordDigest("qwerty");
-        userService.createUser(userData);
+        if (userRepository.findByEmail(email).isEmpty()) {
+            var userData = new User();
+            userData.setEmail(email);
+            userData.setPasswordDigest("qwerty");
+            userService.createUser(userData);
+        }
 
         var taskStatus1 = new TaskStatus();
         taskStatus1.setName("draft");
