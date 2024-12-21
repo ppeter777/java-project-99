@@ -1,12 +1,7 @@
 package hexlet.code.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +22,8 @@ public class Label implements BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    @NotNull
     @Size(min = 3, max = 1000)
     private String name;
 

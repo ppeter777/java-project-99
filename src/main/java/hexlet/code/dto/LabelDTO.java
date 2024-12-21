@@ -20,5 +20,5 @@ public class LabelDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
-    private Set<Task> taskSet;
+//    private Set<Task> taskSet;
 }
