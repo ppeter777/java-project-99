@@ -8,20 +8,14 @@ logging:
 spring:
   application:
     name: app
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE}
-    default: development
   jpa:
-    generate-ddl: true
     show-sql: true
     hibernate:
       ddl-auto: update
+      dialect: My.SQLDialect
   output:
     ansi:
       enabled: always
-  sql:
-    init:
-      mode: always
 
 rsa:
   private-key: classpath:certs/private.pem
