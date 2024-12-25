@@ -3,20 +3,19 @@ logging:
     root: warn
 
 spring:
+  application:
+    name: app
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
     default: development
-
   jpa:
     generate-ddl: true
     show-sql: true
     hibernate:
       ddl-auto: update
-
   output:
     ansi:
       enabled: always
-
   sql:
     init:
       mode: always
