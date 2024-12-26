@@ -144,8 +144,7 @@ public class TaskControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var testTask = Instancio.of(modelGenerator.getTaskModel())
-                .create();
+        var testTask = Instancio.of(modelGenerator.getTaskModel()).create();
         var testTaskDTO = taskMapper.map(testTask);
         testTaskDTO.setAssigneeId(testUser.getId());
         testTaskDTO.setStatus(testTaskStatus.getSlug());

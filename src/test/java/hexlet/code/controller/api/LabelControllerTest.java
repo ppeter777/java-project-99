@@ -1,6 +1,8 @@
 package hexlet.code.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.dto.LabelCreateDTO;
+import hexlet.code.dto.LabelUpdateDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
@@ -9,6 +11,7 @@ import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -69,8 +72,7 @@ public class LabelControllerTest {
 
     @Test
     public void indexTest() throws Exception {
-        var response = mockMvc.perform(get("/api/labels")
-                        .with(token))
+        var response = mockMvc.perform(get("/api/labels").with(token))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         assertThat(response).contains(testLabel.getName());
@@ -89,32 +91,30 @@ public class LabelControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var testLabel = Instancio.of(modelGenerator.getLabelModel())
-                .create();
-        var testLabelDto = labelMapper.map(testLabel);
-        testLabelDto.setName(testLabel.getName());
+        var testLabelCreateDTO = new LabelCreateDTO();
+        testLabelCreateDTO.setName("Test_label");
         var request = post("/api/labels")
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(testLabelDto));
+                .content(om.writeValueAsString(testLabelCreateDTO));
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
-        var label = labelRepository.getLabelByName(testLabel.getName());
-        assertNotNull(label);
-        assertThat(label.get().getName()).isEqualTo(testLabel.getName());
+        var createdLabel = labelRepository.getLabelByName("Test_label");
+        assertNotNull(createdLabel);
+        assertThat(createdLabel.get().getName()).isEqualTo("Test_label");
     }
 
     @Test
     public void testUpdate() throws Exception {
-        var data = new HashMap<>();
-        data.put("name", "test_label_name");
+        var testLabelUpdateDTO = new LabelUpdateDTO();
+        testLabelUpdateDTO.setName(JsonNullable.of("test_label_name"));
         var request = put("/api/labels/" + testLabel.getId())
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(data));
+                .content(om.writeValueAsString(testLabelUpdateDTO));
         mockMvc.perform(request)
                 .andExpect(status().isOk());
-        var updatedLabel = labelRepository.findById(testLabel.getId()).get();
+        var updatedLabel = labelRepository.findById(testLabel.getId()).orElseThrow();
         assertThat(updatedLabel.getName()).isEqualTo(("test_label_name"));
     }
 

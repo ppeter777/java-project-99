@@ -8,6 +8,9 @@ logging:
 spring:
   application:
     name: app
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE}
+    default: production
   jpa:
     show-sql: true
     hibernate:

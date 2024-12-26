@@ -3,7 +3,6 @@ package hexlet.code.controller.api;
 import hexlet.code.dto.LabelCreateDTO;
 import hexlet.code.dto.LabelDTO;
 import hexlet.code.dto.LabelUpdateDTO;
-import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.service.LabelService;
@@ -37,7 +36,7 @@ public class LabelController {
 
     @GetMapping("/labels")
     ResponseEntity<List<LabelDTO>> index() {
-        var labels = repository.findAll();
+        var labels = labelService.getAll();
         var result = labels.stream()
                 .map(labelMapper::map)
                 .toList();
@@ -49,9 +48,7 @@ public class LabelController {
     @GetMapping("/labels/{id}")
     @ResponseStatus(HttpStatus.OK)
     public LabelDTO show(@PathVariable Long id) {
-        var label = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id + " Not Found"));
-        return labelMapper.map(label);
+        return labelService.findById(id);
     }
 
     @PostMapping("/labels")
@@ -69,6 +66,6 @@ public class LabelController {
     @DeleteMapping("/labels/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void destroy(@PathVariable Long id) {
-        repository.deleteById(id);
+        labelService.deleteById(id);
     }
 }

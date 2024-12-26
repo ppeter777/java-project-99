@@ -32,6 +32,12 @@ public class TaskService {
     @Autowired
     private TaskMapper taskMapper;
 
+    public TaskDTO findById(Long id) {
+        var taskStatus = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task status with id = " + id + " not found"));
+        return taskMapper.map(taskStatus);
+    }
+
     public TaskDTO create(TaskCreateDTO taskData) {
         try {
             throw new Exception("Task create.");
@@ -59,5 +65,11 @@ public class TaskService {
         return taskRepository.findAll().stream()
                 .map(taskMapper::map)
                 .toList();
+    }
+
+    public void deleteById(Long id) {
+        var task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+        taskRepository.delete(task);
     }
 }

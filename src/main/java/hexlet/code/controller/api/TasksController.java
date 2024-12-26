@@ -4,7 +4,6 @@ import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.dto.TaskDTO;
 import hexlet.code.dto.TaskParamsDTO;
 import hexlet.code.dto.TaskUpdateDTO;
-import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.service.TaskService;
@@ -45,9 +44,7 @@ public class TasksController {
     @GetMapping("/tasks/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskDTO show(@PathVariable Long id) {
-        var task = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id + " Not Found"));
-        return taskMapper.map(task);
+        return taskService.findById(id);
     }
 
     @GetMapping("/tasks")
@@ -77,6 +74,6 @@ public class TasksController {
     @DeleteMapping("/tasks/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void destroy(@PathVariable Long id) {
-        repository.deleteById(id);
+        taskService.deleteById(id);
     }
 }
