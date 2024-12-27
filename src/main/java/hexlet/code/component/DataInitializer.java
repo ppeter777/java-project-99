@@ -40,13 +40,13 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-//        var email = "hexlet@example.com";
-//        if (userRepository.findByEmail(email).isEmpty()) {
-//            var userData = new User();
-//            userData.setEmail(email);
-//            userData.setPasswordDigest("qwerty");
-//            userService.createUser(userData);
-//        }
+        var email = "hexlet@example.com";
+        if (userRepository.findByEmail(email).isEmpty()) {
+            var userData = new User();
+            userData.setEmail(email);
+            userData.setPasswordDigest("qwerty");
+            userService.createUser(userData);
+        }
 //
 //        List<TaskStatusCreateDTO> initStatuses = new ArrayList<>(List.of(
 //            new TaskStatusCreateDTO("Draft", "draft"),
@@ -60,15 +60,15 @@ public class DataInitializer implements ApplicationRunner {
 //                taskStatusRepository.save(taskStatusMapper.map(status));
 //            }
 //        }
-//
-//        List<LabelCreateDTO> initLabels = new ArrayList<>(List.of(
-//                new LabelCreateDTO("bug"),
-//                new LabelCreateDTO("feature")));
-//
-//        for (LabelCreateDTO label : initLabels) {
-//            if (labelRepository.getLabelByName(label.getName()).isEmpty()) {
-//                labelRepository.save(labelMapper.map(label));
-//            }
-//        }
+
+        List<LabelCreateDTO> initLabels = new ArrayList<>(List.of(
+                new LabelCreateDTO("bug"),
+                new LabelCreateDTO("feature")));
+
+        for (LabelCreateDTO label : initLabels) {
+            if (labelRepository.getLabelByName(label.getName()).isEmpty()) {
+                labelRepository.save(labelMapper.map(label));
+            }
+        }
     }
 }
