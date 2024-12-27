@@ -1,6 +1,7 @@
 package hexlet.code.component;
 
 import hexlet.code.dto.LabelCreateDTO;
+import hexlet.code.dto.TaskStatusCreateDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.User;
@@ -46,19 +47,19 @@ public class DataInitializer implements ApplicationRunner {
             userData.setPasswordDigest("qwerty");
             userService.createUser(userData);
         }
-//
-//        List<TaskStatusCreateDTO> initStatuses = new ArrayList<>(List.of(
-//            new TaskStatusCreateDTO("Draft", "draft"),
-//            new TaskStatusCreateDTO("To review", "to_review"),
-//            new TaskStatusCreateDTO("To be fixed", "to_be_fixed"),
-//            new TaskStatusCreateDTO("To publish", "to_publish"),
-//            new TaskStatusCreateDTO("Published", "published")));
-//
-//        for (TaskStatusCreateDTO status : initStatuses) {
-//            if (taskStatusRepository.getTaskStatusByName(status.getName()).isEmpty()) {
-//                taskStatusRepository.save(taskStatusMapper.map(status));
-//            }
-//        }
+
+        List<TaskStatusCreateDTO> initStatuses = new ArrayList<>(List.of(
+            new TaskStatusCreateDTO("Draft", "draft"),
+            new TaskStatusCreateDTO("To review", "to_review"),
+            new TaskStatusCreateDTO("To be fixed", "to_be_fixed"),
+            new TaskStatusCreateDTO("To publish", "to_publish"),
+            new TaskStatusCreateDTO("Published", "published")));
+
+        for (TaskStatusCreateDTO status : initStatuses) {
+            if (taskStatusRepository.getTaskStatusByName(status.getName()).isEmpty()) {
+                taskStatusRepository.save(taskStatusMapper.map(status));
+            }
+        }
 
         List<LabelCreateDTO> initLabels = new ArrayList<>(List.of(
                 new LabelCreateDTO("bug"),
