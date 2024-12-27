@@ -60,9 +60,9 @@ public class DataInitializer implements ApplicationRunner {
             var initSlug = initTaskStatus.getSlug();
             if (taskStatusRepository.getTaskStatusByName(initName).isEmpty()
                     && taskStatusRepository.getTaskStatusBySlug(initSlug).isEmpty()) {
-                    taskStatusRepository.save(taskStatusMapper.map(initTaskStatus));
-                }
+                taskStatusRepository.save(taskStatusMapper.map(initTaskStatus));
             }
+        }
 
         List<LabelCreateDTO> initLabels = new ArrayList<>(List.of(
                 new LabelCreateDTO("bug"),
