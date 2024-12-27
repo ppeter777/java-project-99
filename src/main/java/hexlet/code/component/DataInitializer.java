@@ -2,16 +2,20 @@ package hexlet.code.component;
 
 import hexlet.code.dto.LabelCreateDTO;
 import hexlet.code.dto.TaskStatusCreateDTO;
+import hexlet.code.mapper.LabelMapper;
+import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
+import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.CustomUserDetailsService;
-import hexlet.code.service.LabelService;
-import hexlet.code.service.TaskStatusService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -23,10 +27,16 @@ public class DataInitializer implements ApplicationRunner {
     private final CustomUserDetailsService userService;
 
     @Autowired
-    private final TaskStatusService taskStatusService;
+    private final TaskStatusRepository taskStatusRepository;
 
     @Autowired
-    private final LabelService labelService;
+    private final TaskStatusMapper taskStatusMapper;
+
+    @Autowired
+    private final LabelRepository labelRepository;
+
+    @Autowired
+    private final LabelMapper labelMapper;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -37,12 +47,28 @@ public class DataInitializer implements ApplicationRunner {
             userData.setPasswordDigest("qwerty");
             userService.createUser(userData);
         }
-        taskStatusService.create(new TaskStatusCreateDTO("Draft", "draft"));
-        taskStatusService.create(new TaskStatusCreateDTO("To review", "to_review"));
-        taskStatusService.create(new TaskStatusCreateDTO("To be fixed", "to_be_fixed"));
-        taskStatusService.create(new TaskStatusCreateDTO("To publish", "to_publish"));
-        taskStatusService.create(new TaskStatusCreateDTO("Published", "published"));
-        labelService.create(new LabelCreateDTO("bug"));
-        labelService.create(new LabelCreateDTO("feature"));
+
+        List<TaskStatusCreateDTO> initStatuses = new ArrayList<>(List.of(
+            new TaskStatusCreateDTO("Draft", "draft"),
+            new TaskStatusCreateDTO("To review", "to_review"),
+            new TaskStatusCreateDTO("To be fixed", "to_be_fixed"),
+            new TaskStatusCreateDTO("To publish", "to_publish"),
+            new TaskStatusCreateDTO("Published", "published")));
+
+        for (TaskStatusCreateDTO status : initStatuses) {
+            if (taskStatusRepository.getTaskStatusByName(status.getName()).isEmpty()) {
+                taskStatusRepository.save(taskStatusMapper.map(status));
+            }
+        }
+
+        List<LabelCreateDTO> initLabels = new ArrayList<>(List.of(
+                new LabelCreateDTO("bug"),
+                new LabelCreateDTO("feature")));
+
+        for (LabelCreateDTO label : initLabels) {
+            if (labelRepository.getLabelByName(label.getName()).isEmpty()) {
+                labelRepository.save(labelMapper.map(label));
+            }
+        }
     }
 }
