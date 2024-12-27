@@ -41,12 +41,6 @@ public class TasksController {
     @Autowired
     private TaskSpecification specBuilder;
 
-    @GetMapping("/tasks/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public TaskDTO show(@PathVariable Long id) {
-        return taskService.findById(id);
-    }
-
     @GetMapping("/tasks")
     ResponseEntity<List<TaskDTO>> index(TaskParamsDTO params, @RequestParam (defaultValue = "1") int page) {
         var specification = specBuilder.build(params);
@@ -57,6 +51,12 @@ public class TasksController {
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(taskService.getAll().size()))
                 .body(result);
+    }
+
+    @GetMapping("/tasks/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskDTO show(@PathVariable Long id) {
+        return taskService.findById(id);
     }
 
     @PostMapping("/tasks")
