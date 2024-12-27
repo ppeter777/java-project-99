@@ -55,11 +55,14 @@ public class DataInitializer implements ApplicationRunner {
             new TaskStatusCreateDTO("To publish", "to_publish"),
             new TaskStatusCreateDTO("Published", "published")));
 
-        for (TaskStatusCreateDTO status : initStatuses) {
-            if (taskStatusRepository.getTaskStatusByName(status.getName()).isEmpty()) {
-                taskStatusRepository.save(taskStatusMapper.map(status));
+        for (TaskStatusCreateDTO initTaskStatus : initStatuses) {
+            var initName = initTaskStatus.getName();
+            var initSlug = initTaskStatus.getSlug();
+            if (taskStatusRepository.getTaskStatusByName(initName).isEmpty()
+                    && taskStatusRepository.getTaskStatusBySlug(initSlug).isEmpty()) {
+                    taskStatusRepository.save(taskStatusMapper.map(initTaskStatus));
+                }
             }
-        }
 
         List<LabelCreateDTO> initLabels = new ArrayList<>(List.of(
                 new LabelCreateDTO("bug"),
