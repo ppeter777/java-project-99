@@ -1,8 +1,7 @@
 package hexlet.code.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.dto.LabelCreateDTO;
-import hexlet.code.dto.LabelUpdateDTO;
+import hexlet.code.dto.LabelDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
@@ -11,7 +10,6 @@ import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -90,12 +88,12 @@ public class LabelControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var testLabelCreateDTO = new LabelCreateDTO();
-        testLabelCreateDTO.setName("Test_label");
+        var testLabelDTO = new LabelDTO();
+        testLabelDTO.setName("Test_label");
         var request = post("/api/labels")
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(testLabelCreateDTO));
+                .content(om.writeValueAsString(testLabelDTO));
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
         var createdLabel = labelRepository.getLabelByName("Test_label");
@@ -105,8 +103,8 @@ public class LabelControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        var testLabelUpdateDTO = new LabelUpdateDTO();
-        testLabelUpdateDTO.setName(JsonNullable.of("test_label_name"));
+        var testLabelUpdateDTO = new LabelDTO();
+        testLabelUpdateDTO.setName("test_label_name");
         var request = put("/api/labels/" + testLabel.getId())
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)

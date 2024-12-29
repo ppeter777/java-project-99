@@ -1,7 +1,7 @@
 package hexlet.code.component;
 
-import hexlet.code.dto.LabelCreateDTO;
-import hexlet.code.dto.TaskStatusCreateDTO;
+import hexlet.code.dto.LabelDTO;
+import hexlet.code.dto.TaskStatusDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.User;
@@ -48,14 +48,25 @@ public class DataInitializer implements ApplicationRunner {
             userService.createUser(userData);
         }
 
-        List<TaskStatusCreateDTO> initStatuses = new ArrayList<>(List.of(
-            new TaskStatusCreateDTO("Draft", "draft"),
-            new TaskStatusCreateDTO("To review", "to_review"),
-            new TaskStatusCreateDTO("To be fixed", "to_be_fixed"),
-            new TaskStatusCreateDTO("To publish", "to_publish"),
-            new TaskStatusCreateDTO("Published", "published")));
+        TaskStatusDTO initTaskStatus1 = new TaskStatusDTO();
+        initTaskStatus1.setName("Draft");
+        initTaskStatus1.setSlug("draft");
+        TaskStatusDTO initTaskStatus2 = new TaskStatusDTO();
+        initTaskStatus2.setName("To review");
+        initTaskStatus2.setSlug("to_review");
+        TaskStatusDTO initTaskStatus3 = new TaskStatusDTO();
+        initTaskStatus3.setName("To be fixed");
+        initTaskStatus3.setSlug("to_be_fixed");
+        TaskStatusDTO initTaskStatus4 = new TaskStatusDTO();
+        initTaskStatus4.setName("To publish");
+        initTaskStatus4.setSlug("to_publish");
+        TaskStatusDTO initTaskStatus5 = new TaskStatusDTO();
+        initTaskStatus5.setName("Published");
+        initTaskStatus5.setSlug("published");
+        List<TaskStatusDTO> initStatuses = new ArrayList<>(List.of(initTaskStatus1, initTaskStatus2,
+            initTaskStatus3, initTaskStatus4, initTaskStatus5));
 
-        for (TaskStatusCreateDTO initTaskStatus : initStatuses) {
+        for (TaskStatusDTO initTaskStatus : initStatuses) {
             var initName = initTaskStatus.getName();
             var initSlug = initTaskStatus.getSlug();
             if (taskStatusRepository.getTaskStatusByName(initName).isEmpty()
@@ -63,12 +74,13 @@ public class DataInitializer implements ApplicationRunner {
                 taskStatusRepository.save(taskStatusMapper.map(initTaskStatus));
             }
         }
+        LabelDTO initLabel1 = new LabelDTO();
+        initLabel1.setName("bug");
+        LabelDTO initLabel2 = new LabelDTO();
+        initLabel2.setName("feature");
+        List<LabelDTO> initLabels = new ArrayList<>(List.of(initLabel1, initLabel2));
 
-        List<LabelCreateDTO> initLabels = new ArrayList<>(List.of(
-                new LabelCreateDTO("bug"),
-                new LabelCreateDTO("feature")));
-
-        for (LabelCreateDTO label : initLabels) {
+        for (LabelDTO label : initLabels) {
             if (labelRepository.getLabelByName(label.getName()).isEmpty()) {
                 labelRepository.save(labelMapper.map(label));
             }

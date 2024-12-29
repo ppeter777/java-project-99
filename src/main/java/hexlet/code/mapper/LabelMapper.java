@@ -1,8 +1,6 @@
 package hexlet.code.mapper;
 
-import hexlet.code.dto.LabelCreateDTO;
 import hexlet.code.dto.LabelDTO;
-import hexlet.code.dto.LabelUpdateDTO;
 import hexlet.code.model.Label;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -19,12 +17,10 @@ public abstract class LabelMapper {
 
     public abstract Label map(LabelDTO model);
 
-    public abstract Label map(LabelCreateDTO model);
-
     public abstract LabelDTO map(Label task);
 
     public abstract List<LabelDTO> map(List<Label> list);
 
-    public abstract void update(LabelUpdateDTO update, @MappingTarget Label destination);
+    public abstract void update(LabelDTO update, @MappingTarget Label destination);
 
 }

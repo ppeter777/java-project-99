@@ -1,8 +1,6 @@
 package hexlet.code.controller.api;
 
-import hexlet.code.dto.TaskStatusCreateDTO;
 import hexlet.code.dto.TaskStatusDTO;
-import hexlet.code.dto.TaskStatusUpdateDTO;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.service.TaskStatusService;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -54,13 +51,13 @@ public class TaskStatusesController {
 
     @PostMapping("/task_statuses")
     @ResponseStatus(HttpStatus.CREATED)
-    TaskStatusDTO create(@Valid @RequestBody TaskStatusCreateDTO data) {
+    TaskStatusDTO create(@Valid @RequestBody TaskStatusDTO data) {
         return taskStatusService.create(data);
     }
 
     @PutMapping("/task_statuses/{id}")
     @ResponseStatus(HttpStatus.OK)
-    TaskStatusDTO update(@RequestBody TaskStatusUpdateDTO data, @PathVariable Long id) {
+    TaskStatusDTO update(@RequestBody TaskStatusDTO data, @PathVariable Long id) {
         return taskStatusService.update(data, id);
     }
 

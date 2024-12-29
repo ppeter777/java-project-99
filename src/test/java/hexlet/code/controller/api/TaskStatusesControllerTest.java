@@ -2,8 +2,8 @@ package hexlet.code.controller.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.dto.LabelUpdateDTO;
-import hexlet.code.dto.TaskStatusCreateDTO;
+import hexlet.code.dto.LabelDTO;
+import hexlet.code.dto.TaskStatusDTO;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.util.ModelGenerator;
@@ -11,7 +11,6 @@ import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -92,7 +91,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var testTaskStatusDTO = new TaskStatusCreateDTO();
+        var testTaskStatusDTO = new TaskStatusDTO();
         testTaskStatusDTO.setName("Test_task_status_name");
         testTaskStatusDTO.setSlug("Test_task_status_slug");
         var data = Instancio.of(modelGenerator.getTaskStatusModel()).create();
@@ -110,12 +109,12 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        var testLabelUpdateDTO = new LabelUpdateDTO();
-        testLabelUpdateDTO.setName(JsonNullable.of("Test_label_name"));
+        var testLabelDTO = new LabelDTO();
+        testLabelDTO.setName("Test_label_name");
         var request = put("/api/task_statuses/" + testTaskStatus.getId())
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(testLabelUpdateDTO));
+                .content(om.writeValueAsString(testLabelDTO));
         mockMvc.perform(request)
                 .andExpect(status().isOk());
         var updatedTaskStatus = taskStatusRepository.findById(testTaskStatus.getId()).orElseThrow();
