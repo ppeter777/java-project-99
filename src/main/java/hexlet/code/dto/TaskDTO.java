@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.openapitools.jackson.nullable.JsonNullable;
+
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -21,10 +23,10 @@ public class TaskDTO {
     private LocalDate createdAt;
 
     @JsonProperty("assignee_id")
-    private Long assigneeId;
+    private JsonNullable<Long> assigneeId;
 
-    private String title;
-    private String content;
-    private String status;
-    private Set<Long> taskLabelIds;
+    private JsonNullable<String> title;
+    private JsonNullable<String> content;
+    private JsonNullable<String> status;
+    private JsonNullable<Set<Long>> taskLabelIds;
 }

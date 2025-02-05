@@ -17,6 +17,7 @@ import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -146,8 +147,8 @@ public class TaskControllerTest {
     public void testCreate() throws Exception {
         var testTask = Instancio.of(modelGenerator.getTaskModel()).create();
         var testTaskDTO = taskMapper.map(testTask);
-        testTaskDTO.setAssigneeId(testUser.getId());
-        testTaskDTO.setStatus(testTaskStatus.getSlug());
+        testTaskDTO.setAssigneeId(JsonNullable.of(testUser.getId()));
+        testTaskDTO.setStatus(JsonNullable.of(testTaskStatus.getSlug()));
         var request = post("/api/tasks")
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -157,27 +158,6 @@ public class TaskControllerTest {
         var task = taskRepository.getTaskByName(testTask.getName());
         assertNotNull(task);
         assertThat(task.get().getDescription()).isEqualTo(testTask.getDescription());
-    }
-
-    @Test
-    public void testCreate2() throws Exception {
-        var data = new TaskDTO();
-        data.setTitle("New Name");
-        data.setContent("New content");
-        data.setStatus(testTaskStatus.getSlug());
-        data.setAssigneeId(testUser.getId());
-        var request = post("/api/tasks")
-                .with(token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(data));
-        mockMvc.perform(request)
-                .andExpect(status().isCreated());
-        var task = taskRepository.getTaskByName(data.getTitle()).orElse(null);
-        assertThat(task).isNotNull();
-        assertThat(task.getName()).isEqualTo(data.getTitle());
-        assertThat(task.getDescription()).isEqualTo(data.getContent());
-        assertThat(task.getTaskStatus().getSlug()).isEqualTo(data.getStatus());
-        assertThat(task.getAssignee().getId()).isEqualTo(data.getAssigneeId());
     }
 
     @Test

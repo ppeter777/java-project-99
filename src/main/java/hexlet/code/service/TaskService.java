@@ -38,7 +38,7 @@ public class TaskService {
     public TaskDTO create(TaskDTO taskData) {
         var task = taskMapper.map(taskData);
         var slug = taskData.getStatus();
-        var taskStatus = taskStatusRepository.getTaskStatusBySlug(slug)
+        var taskStatus = taskStatusRepository.getTaskStatusBySlug(slug.get())
                 .orElseThrow(() -> new ResourceNotFoundException("Task status not found"));
         task.setTaskStatus(taskStatus);
         taskRepository.save(task);
