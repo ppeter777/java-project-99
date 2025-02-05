@@ -1,9 +1,7 @@
 package hexlet.code.controller.api;
 
-import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.dto.TaskDTO;
 import hexlet.code.dto.TaskParamsDTO;
-import hexlet.code.dto.TaskUpdateDTO;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.service.TaskService;
@@ -61,13 +59,13 @@ public class TasksController {
 
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.CREATED)
-    TaskDTO create(@Valid @RequestBody TaskCreateDTO taskData) {
+    TaskDTO create(@Valid @RequestBody TaskDTO taskData) {
         return taskService.create(taskData);
     }
 
     @PutMapping("/tasks/{id}")
     @ResponseStatus(HttpStatus.OK)
-    TaskDTO update(@RequestBody TaskUpdateDTO data, @PathVariable Long id) {
+    TaskDTO update(@RequestBody TaskDTO data, @PathVariable Long id) {
         return taskService.update(data, id);
     }
 
