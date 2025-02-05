@@ -7,7 +7,6 @@ import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
-import io.sentry.Sentry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -37,11 +36,6 @@ public class TaskService {
     }
 
     public TaskDTO create(TaskDTO taskData) {
-        try {
-            throw new Exception("Task create.");
-        } catch (Exception e) {
-            Sentry.captureException(e);
-        }
         var task = taskMapper.map(taskData);
         var slug = taskData.getStatus();
         var taskStatus = taskStatusRepository.getTaskStatusBySlug(slug)
