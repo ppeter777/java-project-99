@@ -1,8 +1,6 @@
 package hexlet.code.controller.api;
 
-import hexlet.code.dto.UserCreateDTO;
 import hexlet.code.dto.UserDTO;
-import hexlet.code.dto.UserUpdateDTO;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.UserService;
@@ -53,13 +51,13 @@ public class UsersController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
+    UserDTO create(@Valid @RequestBody UserDTO userData) {
         return userService.createUser(userData);
     }
 
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    UserDTO update(@Valid @RequestBody UserUpdateDTO userData, @PathVariable Long id) {
+    UserDTO update(@Valid @RequestBody UserDTO userData, @PathVariable Long id) {
         return userService.updateUser(userData, id);
     }
 

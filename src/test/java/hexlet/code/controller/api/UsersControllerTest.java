@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.UserDTO;
-import hexlet.code.dto.UserUpdateDTO;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
@@ -95,7 +94,7 @@ public class UsersControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        var userData = new UserUpdateDTO();
+        var userData = new UserDTO();
         userData.setFirstName(JsonNullable.of("Bobik"));
         userData.setLastName(JsonNullable.of("Sobakin"));
         var request = put("/api/users/" + testUser.getId())
